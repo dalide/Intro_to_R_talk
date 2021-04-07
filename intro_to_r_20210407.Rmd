@@ -1,0 +1,725 @@
+---
+title: 'Intro to R: hands-on experience'
+author: "Licheng Zhang"
+date: "4/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) #, class.source="bg-info", class.output="bg-success")
+```
+
+## Arithmetic with R
+
+In its most basic form, R can be used as a simple calculator. Consider the following arithmetic operators:
+
+- Addition: `+`
+- Subtraction: `-`
+- Multiplication: `*`
+- Division: `/`
+- Exponentiation: `^`
+- Modulo: `%%`
+
+```{r}
+# An addition
+5 + 5
+
+# A subtraction
+5 - 5 
+
+# A multiplication
+3 * 5
+
+ # A division
+(5 + 5) / 2 
+
+# Exponentiation
+2 ^ 5
+
+# Modulo
+28 %% 6
+```
+# Variable 
+
+## Variable assignment
+
+A basic concept in (statistical) programming is called a **variable**. 
+
+A variable allows you to store a value (e.g. 4) or an object (e.g. a function description) in R. You can then later use this variable's name to easily access the value or the object that is stored within this variable. 
+
+```{r}
+# Assign the value 42 to x
+x <- 42
+
+# Print out the value of the variable x
+x
+```
+
+Suppose you have a fruit basket with five apples. As a data analyst in training, you want to store the number of apples in a variable with the name `my_apples`.
+```{r}
+# Assign the value 5 to the variable my_apples
+my_apples <- 5
+
+# Print out the value of the variable my_apples
+my_apples
+```
+
+
+Every tasty fruit basket needs oranges, so you decide to add six oranges. As a data analyst, your reflex is to immediately create the variable `my_oranges` and assign the value 6 to it. Next, you want to calculate how many pieces of fruit you have in total. Since you have given meaningful names to these values, you can now code this in a clear way: 
+```{r}
+# Assign a value to the variables my_oranges
+my_oranges <- 6
+
+# Add these two variables together
+my_apples + my_oranges
+
+# Create the variable my_fruit
+my_fruit <- my_apples + my_oranges
+my_fruit
+```
+
+
+## Apples and oranges
+
+Common knowledge tells you not to add apples and oranges. But hey, that is what you just did, no :-)? The `my_apples` and `my_oranges` variables both contained a number in the previous exercise. The `+` operator works with numeric variables in R. If you really tried to add "apples" and "oranges", and assigned a text value to the variable `my_oranges` (see the editor), you would be trying to assign the addition of a numeric and a character variable to the variable `my_fruit`. This is not possible.
+```{r}
+# Fix the assignment of my_oranges
+# my_oranges <- "six"
+
+# Create the variable my_fruit and print it out
+my_fruit <- my_apples + my_oranges 
+my_fruit
+```
+
+
+## Basic data types in R
+
+R works with numerous data types. Some of the most basic types to get started are:
+
+- Decimal values like `4.5` are called **numerics**.
+- Whole numbers like `4` are called **integers**. Integers are also numerics.
+- Boolean values (`TRUE` or `FALSE`) are called **logical**.
+- Text (or string) values are called **characters**.
+
+Note how the quotation marks in the editor indicate that `"some text"` is a string.
+
+```{r}
+# Change my_numeric to be 42
+my_numeric <- 42.5
+
+# Change my_character to be "universe"
+my_character <- "some text"
+
+# Change my_logical to be FALSE
+my_logical <- TRUE
+```
+
+## What's that data type?
+
+Do you remember that when you added `5 + "six"`, you got an error due to a mismatch in data types? You can avoid such embarrassing situations by checking the data type of a variable beforehand. You can do this with the `class()` function, as the code in the editor shows.
+
+```{r}
+# Check class of my_numeric
+class(my_numeric)
+
+# Check class of my_character
+
+
+# Check class of my_logical
+
+```
+
+# Vector
+
+## Create a vector
+
+Feeling lucky? You better, because this chapter takes you on a trip to the City of Sins, also known as *Statisticians Paradise*!
+
+Thanks to R and your new data-analytical skills, you will learn how to uplift your performance at the tables and fire off your career as a professional gambler. This chapter will show how you can easily keep track of your betting progress and how you can do some simple analyses on past actions. Next stop, Vegas Baby... VEGAS!!
+
+```{r}
+# Define the variable vegas
+vegas <- "Go!"
+```
+
+Let us focus first! 
+
+On your way from rags to riches, you will make extensive use of vectors. Vectors are one-dimension arrays that can hold numeric data, character data, or logical data. In other words, a vector is a simple tool to store data. For example, you can store your daily gains and losses in the casinos. 
+
+In R, you create a vector with the combine function [`c()`](http://www.rdocumentation.org/packages/base/functions/c). You place the vector elements separated by a comma between the parentheses. For example:
+
+```{r}
+numeric_vector <- c(1, 10, 49)
+character_vector <- c("a","b","c")
+
+# Complete the code for boolean_vector contains the three elements: `TRUE`, `FALSE` and `TRUE` (in that order).
+boolean_vector <- c()
+```
+
+After one week in Las Vegas and still zero Ferraris in your garage, you decide that it is time to start using your data analytical superpowers.
+
+Before doing a first analysis, you decide to first collect all the winnings and losses for the last week: 
+
+For `poker_vector`: 
+
+- On Monday you won $140
+- Tuesday you lost $50
+- Wednesday you won $20 
+- Thursday you lost $120
+- Friday you won $240
+
+For `roulette_vector`: 
+
+- On Monday you lost $24
+- Tuesday you lost $50
+- Wednesday you won $100
+- Thursday you lost $350
+- Friday you won $10
+
+You only played poker and roulette, since there was a delegation of mediums that occupied the craps tables. To be able to use this data in R, you decide to create the variables `poker_vector` and `roulette_vector`.
+
+```{r}
+# Poker winnings from Monday to Friday
+poker_vector <- c(140, -50, 20, -120, 240)
+
+# Roulette winnings from Monday to Friday
+roulette_vector <- c()
+```
+
+## Naming a vector
+
+As a data analyst, it is important to have a clear view on the data that you are using. Understanding what each element refers to is therefore essential. 
+
+In the previous exercise, we created a vector with your winnings over the week. Each vector element refers to a day of the week but it is hard to tell which element belongs to which day. It would be nice if you could show that in the vector itself. 
+
+You can give a name to the elements of a vector with the `names()` function.
+
+```{r}
+# Assign days as names of poker_vector
+names(poker_vector) <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+# Assign days as names of roulette_vector
+names(roulette_vector) <- c()
+```
+
+If you want to become a good statistician, you have to become lazy. (If you are already lazy, chances are high you are one of those exceptional, natural-born statistical talents.)
+
+In the previous exercises you probably experienced that it is boring and frustrating to type and retype information such as the days of the week. However, when you look at it from a higher perspective, there is a more efficient way to do this, namely, to assign the days of the week vector to a **variable**! 
+
+Just like you did with your poker and roulette returns, you can also create a variable that contains the days of the week. This way you can use and re-use it.
+
+```{r}
+# Poker winnings from Monday to Friday
+poker_vector <- c(140, -50, 20, -120, 240)
+
+# Roulette winnings from Monday to Friday
+roulette_vector <- c(-24, -50, 100, -350, 10)
+
+# The variable days_vector
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+# Assign the names of the day to roulette_vector and poker_vector
+names(poker_vector) <- c()
+names(roulette_vector) <- c()
+```
+
+
+## Calculating total winnings
+
+Now that you have the poker and roulette winnings nicely as named vectors, you can start doing some data analytical magic. 
+
+You want to find out the following type of information:
+
+- How much has been your overall profit or loss per day of the week?
+- Have you lost money over the week in total?
+- Are you winning/losing money on poker or on roulette?
+
+To get the answers, you have to do arithmetic calculations on vectors. 
+
+It is important to know that if you sum two vectors in R, it takes the element-wise sum. 
+
+```{r}
+A_vector <- c(1, 2, 3)
+B_vector <- c(4, 5, 6)
+
+# Take the sum of A_vector and B_vector
+total_vector <- A_vector + B_vector
+
+# Print out total_vector
+total_vector
+```
+
+Now you understand how R does arithmetic with vectors, it is time to get those Ferraris in your garage! First, you need to understand what the overall profit or loss per day of the week was. The total daily profit is the sum of the profit/loss you realized on poker per day, and the profit/loss you realized on roulette per day. 
+
+In R, this is just the sum of `roulette_vector` and `poker_vector`.
+
+```{r}
+# Poker and roulette winnings from Monday to Friday:
+poker_vector <- c(140, -50, 20, -120, 240)
+roulette_vector <- c(-24, -50, 100, -350, 10)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+names(poker_vector) <- days_vector
+names(roulette_vector) <- days_vector
+
+# Assign to total_daily how much you won/lost on each day
+total_daily <- c()
+```
+
+Based on the previous analysis, it looks like you had a mix of good and bad days. This is not what your ego expected, and you wonder if there may be a very tiny chance you have lost money over the week in total? 
+
+A function that helps you to answer this question is [`sum()`](http://www.rdocumentation.org/packages/base/functions/sum). It calculates the sum of all elements of a vector.
+
+```{r}
+# Total winnings with poker
+total_poker <- sum(poker_vector)
+
+# Total winnings with roulette
+total_roulette <-  sum(roulette_vector)
+
+# Total winnings overall
+total_week <- c()
+
+# Print out total_week
+
+```
+
+## Comparing total winnings
+
+Oops, it seems like you are losing money. Time to rethink and adapt your strategy! This will require some deeper analysis... 
+
+After a short brainstorm in your hotel's jacuzzi, you realize that a possible explanation might be that your skills in roulette are not as well developed as your skills in poker. So maybe your total gains in poker are higher (or `>` ) than in roulette.
+
+```{r}
+# Poker and roulette winnings from Monday to Friday:
+poker_vector <- c(140, -50, 20, -120, 240)
+roulette_vector <- c(-24, -50, 100, -350, 10)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+names(poker_vector) <- days_vector
+names(roulette_vector) <- days_vector
+
+# Calculate total gains for poker and roulette
+total_poker <- sum(poker_vector)
+total_roulette <- sum(roulette_vector)
+
+# Check if you realized higher total gains in poker than in roulette
+total_poker > total_roulette
+```
+
+## Vector selection: the good times
+
+Your hunch seemed to be right. It appears that the poker game is more your cup of tea than roulette. 
+
+Another possible route for investigation is your performance at the beginning of the working week compared to the end of it. You did have a couple of Margarita cocktails at the end of the week... 
+
+To answer that question, you only want to focus on a selection of the `total_vector`. In other words, our goal is to select specific elements of the vector. To select elements of a vector (and later matrices, data frames, ...), you can use square brackets. Between the square brackets, you indicate what elements to select. For example, to select the first element of the vector, you type `poker_vector[1]`. To select the second element of the vector, you type `poker_vector[2]`, etc. Notice that the first element in a vector has index 1, not 0 as in many other programming languages.
+
+```{r}
+# Define a new variable based on a selection
+poker_wednesday <- poker_vector[3]
+poker_wednesday
+```
+
+How about analyzing your midweek results? 
+
+To select multiple elements from a vector, you can add square brackets at the end of it. You can indicate between the brackets what elements should be selected. For example: suppose you want to select the first and the fifth day of the week: use the vector `c(1, 5)` between the square brackets.
+
+```{r}
+# Define a new variable based on a selection for mid week, i.e. Tuesday, Wednesday, Friday
+poker_midweek <- poker_vector[c()]
+poker_midweek
+```
+
+Selecting multiple elements of `poker_vector` with `c(2, 3, 4)` is not very convenient. Many statisticians are lazy people by nature, so they created an easier way to do this: `c(2, 3, 4)` can be abbreviated to`2:4`, which generates a vector with all natural numbers from 2 up to 4.
+
+So, another way to find the mid-week results is `poker_vector[2:4]`. Notice how the vector `2:4` is placed between the square brackets to select element 2 up to 4.
+
+```{r}
+# Define a new variable based on a selection
+roulette_selection_vector <- roulette_vector[2:5]
+```
+
+Another way to tackle the previous exercise is by using the names of the vector elements (Monday, Tuesday, ...) instead of their numeric positions. 
+
+```{r}
+# Select poker results for Monday, Tuesday and Wednesday
+poker_start <- poker_vector[c("Monday", "Tuesday", "Wednesday")]
+  
+# Calculate the average of the elements in poker_start
+mean(poker_start)
+```
+
+## Selection by comparison
+
+By making use of comparison operators, we can approach the previous question in a more proactive way. 
+
+The (logical) comparison operators known to R are:
+
+- `<` for less than
+- `>` for greater than
+- `<=` for less than or equal to
+- `>=` for greater than or equal to
+- `==` for equal to each other
+- `!=` not equal to each other
+
+As seen in the previous chapter, stating `6 > 5` returns `TRUE`. The nice thing about R is that you can use these comparison operators also on vectors.
+
+```{r}
+c(4, 5, 6) > 5
+
+# Poker and roulette winnings from Monday to Friday:
+poker_vector <- c(140, -50, 20, -120, 240)
+roulette_vector <- c(-24, -50, 100, -350, 10)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+names(poker_vector) <- days_vector
+names(roulette_vector) <- days_vector
+
+# Which days did you make money on poker?
+selection_vector <- poker_vector > 0
+  
+# Print out selection_vector
+selection_vector
+```
+
+Working with comparisons will make your data analytical life easier. Instead of selecting a subset of days to investigate yourself (like before), you can simply ask R to return only those days where you realized a positive return for poker. 
+
+In the previous exercises you used `selection_vector <- poker_vector > 0` to find the days on which you had a positive poker return. Now, you would like to know not only the days on which you won, but also how much you won on those days. 
+
+```{r}
+# Which days did you make money on poker?
+selection_vector <- poker_vector > 0
+
+# Select from poker_vector these days
+poker_winning_days <- poker_vector[selection_vector]
+poker_winning_days
+```
+
+## Advanced selection
+
+Just like you did for poker, you also want to know those days where you realized a positive return for roulette.
+
+```{r}
+# Poker and roulette winnings from Monday to Friday:
+poker_vector <- c(140, -50, 20, -120, 240)
+roulette_vector <- c(-24, -50, 100, -350, 10)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+names(poker_vector) <- days_vector
+names(roulette_vector) <- days_vector
+
+# Which days did you make money on roulette?
+selection_vector <- roulette_vector > 0
+
+# Select from roulette_vector these days
+roulette_winning_days <- roulette_vector[selection_vector]
+```
+
+# Data Frame
+
+## What's a data frame?
+
+A data frame has the variables of a data set as columns and the observations as rows. This will be a familiar concept for those coming from different statistical software packages such as SAS or SPSS. It is similar to excel table. 
+
+```{r}
+mtcars
+```
+
+## Quick, have a look at your data set
+
+Wow, that is a lot of cars! 
+
+Working with large data sets is not uncommon in data analysis. When you work with (extremely) large data sets and data frames, your first task as a data analyst is to develop a clear understanding of its structure and main elements. Therefore, it is often useful to show only a small part of the entire data set. 
+```{r}
+head(mtcars)
+```
+
+## Have a look at the structure
+
+Another method that is often used to get a rapid overview of your data is the function [`str()`](http://www.rdocumentation.org/packages/utils/functions/str). The function [`str()`](http://www.rdocumentation.org/packages/utils/functions/str) shows you the structure of your data set. For a data frame it tells you:
+
+- The total number of observations (e.g. 32 car types)
+- The total number of variables (e.g. 11 car features)
+- A full list of the variables names (e.g. `mpg`, `cyl` ... )
+- The data type of each variable (e.g. `num`)
+- The first observations
+
+Applying the [`str()`](http://www.rdocumentation.org/packages/utils/functions/str) function will often be the first thing that you do when receiving a new data set or data frame. It is a great way to get more insight in your data set before diving into the real analysis.
+
+```{r}
+str(mtcars)
+```
+
+## Creating a data frame
+
+Since using built-in data sets is not even half the fun of creating your own data sets, the rest of this chapter is based on your personally developed data set. Put your jet pack on because it is time for some space exploration! 
+
+As a first goal, you want to construct a data frame that describes the main characteristics of eight planets in our solar system. According to your good friend Buzz, the main features of a planet are:
+
+- The type of planet (Terrestrial or Gas Giant).
+- The planet's diameter relative to the diameter of the Earth.
+- The planet's rotation across the sun relative to that of the Earth.
+- If the planet has rings or not (TRUE or FALSE).
+
+After doing some high-quality research on [Wikipedia](http://en.wikipedia.org/wiki/Planet), you feel confident enough to create the necessary vectors: `name`, `type`, `diameter`, `rotation` and `rings`; these vectors have already been coded up in the editor. The first element in each of these vectors correspond to the first observation.
+
+You construct a data frame with the [`data.frame()`](http://www.rdocumentation.org/packages/base/functions/data.frame) function. As arguments, you pass the vectors from before: they will become the different columns of your data frame. Because every column has the same length, the vectors you pass should also have the same length. But don't forget that it is possible (and likely) that they contain different types of data.
+
+```{r}
+# Definition of vectors
+name <- c("Mercury", "Venus", "Earth", 
+          "Mars", "Jupiter", "Saturn", 
+          "Uranus", "Neptune")
+type <- c("Terrestrial planet", 
+          "Terrestrial planet", 
+          "Terrestrial planet", 
+          "Terrestrial planet", "Gas giant", 
+          "Gas giant", "Gas giant", "Gas giant")
+diameter <- c(0.382, 0.949, 1, 0.532, 
+              11.209, 9.449, 4.007, 3.883)
+rotation <- c(58.64, -243.02, 1, 1.03,
+              0.41, 0.43, -0.72, 0.67)
+rings <- c(FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE)
+
+# Create a data frame from the vectors
+planets_df <- data.frame(name, type, diameter, rotation, rings)
+
+```
+
+The `planets_df` data frame should have 8 observations and 5 variables. It has been made available in the workspace, so you can directly use it.
+
+```{r}
+str(planets_df)
+```
+## Selection of data frame elements
+
+Similar to vectors and matrices, you select elements from a data frame with the help of square brackets `[ ]`. By using a comma, you can indicate what to select from the rows and the columns respectively. For example:
+
+- `my_df[1,2]` selects the value at the first row and second column in `my_df`.
+- `my_df[1:3,2:4]` selects rows 1, 2, 3 and columns 2, 3, 4 in `my_df`.
+
+Sometimes you want to select all elements of a row or column. For example, `my_df[1, ]` selects all elements of the first row. Let us now apply this technique on `planets_df`!
+
+```{r}
+# The planets_df data frame from the previous exercise is pre-loaded
+
+# Print out diameter of Mercury (row 1, column 3)
+planets_df[1,3]
+
+# Print out data for Mars (entire fourth row)
+planets_df[4, ]
+```
+
+Instead of using numerics to select elements of a data frame, you can also use the variable names to select columns of a data frame. 
+
+Suppose you want to select the first three elements of the `type` column. One way to do this is
+```{r}
+planets_df[1:3,2]
+```
+
+A possible disadvantage of this approach is that you have to know (or look up) the column number of `type`, which gets hard if you have a lot of variables. It is often easier to just make use of the variable name:
+
+```{r}
+planets_df[1:3,"type"]
+
+# Select first 5 values of diameter column
+planets_df[,]
+```
+
+## Only planets with rings
+
+You will often want to select an entire column, namely one specific variable from a data frame. If you want to select all elements of the variable `diameter`, for example, both of these will do the trick:
+
+```{r}
+planets_df[,3]
+planets_df[,"diameter"]
+```
+
+However, there is a short-cut. If your columns have names, you can use the `$` sign:
+
+```{r}
+planets_df$diameter
+```
+
+
+```{r}
+# Select the rings variable from planets_df
+rings_vector <- c()
+  
+# Print out rings_vector
+
+```
+
+
+You probably remember from high school that some planets in our solar system have rings and others do not. Unfortunately you can not recall their names. Could R help you out?
+
+```{r}
+rings_vector
+```
+
+This means that the first four observations (or planets) do not have a ring (`FALSE`), but the other four do (`TRUE`). However, you do not get a nice overview of the names of these planets, their diameter, etc. Let's try to use `rings_vector` to select the data for the four planets with rings.
+
+```{r}
+# Adapt the code to select all columns for planets with rings
+planets_df[rings_vector, "name"]
+```
+
+## Only planets with rings but shorter
+
+So what exactly did you learn in the previous exercises? You selected a subset from a data frame (`planets_df`) based on whether or not a certain condition was true (rings or no rings), and you managed to pull out all relevant data. Pretty awesome! By now, NASA is probably already flirting with your CV ;-). 
+
+Now, let us move up one level and use the function [`subset()`](http://www.rdocumentation.org/packages/base/functions/subset). You should see the [`subset()`](http://www.rdocumentation.org/packages/base/functions/subset) function as a short-cut to do exactly the same as what you did in the previous exercises. 
+
+```{r}
+subset(planets_df, subset = rings)
+```
+```{r}
+# Select planets with diameter < 1
+
+```
+
+## Sorting
+
+Making and creating rankings is one of mankind's favorite affairs. These rankings can be useful (best universities in the world), entertaining (most influential movie stars) or pointless (best 007 look-a-like).
+
+In data analysis you can sort your data according to a certain variable in the data set. In R, this is done with the help of the function [`order()`](http://www.rdocumentation.org/packages/base/functions/order). 
+
+[`order()`](http://www.rdocumentation.org/packages/base/functions/order) is a function that gives you the ranked position of each element when it is applied on a variable, such as a vector for example:
+
+```{r}
+a <- c(100, 10, 1000)
+order(a)
+```
+
+10, which is the second element in `a`, is the smallest element, so 2 comes first in the output of `order(a)`. 100, which is the first element in `a` is the second smallest element, so 1 comes second in the output of `order(a)`.
+
+This means we can use the output of `order(a)` to reshuffle `a`:
+    
+```{r}
+a[order(a)]
+```
+
+
+## Sorting your data frame
+
+Alright, now that you understand the [`order()`](http://www.rdocumentation.org/packages/base/functions/order) function, let us do something useful with it. You would like to rearrange your data frame such that it starts with the smallest planet and ends with the largest one. A sort on the `diameter` column.
+
+```{r}
+# Use order() to create positions
+positions <-  order(planets_df$diameter)
+
+# Use positions to sort planets_df
+planets_df[positions,]
+```
+
+## save entire workspace
+```{r}
+# save.image(file='demo.RData')
+```
+
+## save data frame to disk
+```{r}
+# write.csv(planets_df, 'planets_info.csv', row.names = F)
+```
+
+## load data from csv file
+```{r}
+# planets_df_v2 = read.csv('planets_info.csv')
+# planets_df_v2
+```
+
+
+
+# Data Visualization (ggplot)
+
+load the package ggplot2
+```{r}
+library(ggplot2)
+```
+
+let's play with the built-in data set mtcars
+
+```{r}
+# str(mtcars)
+mtcars$cyl <- as.factor(mtcars$cyl)
+ggplot(mtcars, aes(x = hp, y = mpg, color = cyl, shape=cyl))+
+  geom_point(size=3)
+```
+
+
+```{r}
+ggplot(mtcars, aes(x = hp, y = mpg, color = cyl, shape=cyl))+
+  geom_point(size=3)+
+  geom_smooth(method='lm', aes(fill=cyl))
+```
+
+```{r}
+ggplot(mtcars, aes(x = hp, y = mpg))+
+  geom_point(size=3, aes(color=cyl, shape=cyl))+
+  geom_smooth(method="loess", color="black", se=FALSE) +
+  geom_smooth(method='lm', aes(fill=cyl))
+```
+
+```{r}
+last_plot()+theme_bw()
+```
+
+
+```{r}
+# faceting: separate plots for each levels of a factor
+p <- ggplot(mtcars, aes(x=hp, y=mpg, color=cyl, shape=cyl)) +
+  geom_point(size=3) +
+  geom_smooth(method="lm", aes(fill=cyl)) 
+
+p + facet_wrap(~cyl)
+```
+
+```{r}
+# library(ggplot2)
+library(ggrepel)
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(color = 'red') +
+  geom_text_repel(aes(label = rownames(mtcars))) +
+  theme_classic(base_size = 16)
+```
+
+```{r}
+g <- ggplot(mpg, aes(cty, hwy))
+
+# Scatterplot
+g + geom_point() + 
+  geom_smooth(method="lm", se=F) +
+  labs(subtitle="mpg: city vs highway mileage", 
+       y="hwy", 
+       x="cty", 
+       title="Scatterplot with overlapping points", 
+       caption="Source: midwest")
+```
+
+
+```{r}
+# Histogram on a Categorical variable
+g <- ggplot(mpg, aes(manufacturer))
+g + geom_bar(aes(fill=class), width = 0.5) + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
+  labs(title="Histogram on Categorical Variable", 
+       subtitle="Manufacturer across Vehicle Classes") 
+```
+
+```{r}
+library(plotly)
+library(gapminder)
+
+
+p <- ggplot(gapminder, aes(gdpPercap, lifeExp, color = continent)) +
+  geom_point(aes(size = pop, frame = year, ids = country)) +
+  scale_x_log10()
+
+fig <- ggplotly(p)
+
+fig
+```
+
+
+
+
+
+
+
